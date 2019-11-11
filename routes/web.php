@@ -195,5 +195,27 @@ Route::get('/empresa',function(){
   return view('site.empresa',compact('galeria'));
 });
 
-Route::get('/home', 'HomeController@index');
-Route::get('/home/{id}','HomeController@detalhe');
+//Rotas das paginas iniciais
+/*
+  Route::get('/home', 'HomeController@index');
+  Route::get('/home/{id}','HomeController@detalhe'); 
+*/
+
+
+Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function(){
+    Route::get('/', 'Admin\AdminController@index');
+    Route::resource('usuarios', 'Admin\UsuarioController');
+
+    Route::get('usuarios/papel/{id}', ['as' => 'usuarios.papel', 'uses' => 'Admin\UsuarioController@papel']);
+    Route::post('usuarios/papel/{papel}', ['as' => 'usuarios.papel.store', 'uses' => 'Admin\UsuarioController@papelStore']);
+    Route::delete('usuarios/papel/{usuario}/{papel}', ['as' => 'usuarios.papel.destroy', 'uses' => 'Admin\UsuarioController@papelDestroy']);
+
+    Route::resource('papeis', 'Admin\PapelController');
+
+    Route::get('papeis/permissao/{id}', ['as' => 'papeis.permissao', 'uses' => 'Admin\PapelController@permissao']);
+    Route::post('papeis/permissao/{permissao}', ['as' => 'papeis.permissao.store', 'uses' => 'Admin\PapelController@permissaoStore']);
+    Route::delete('papeis/permissao/{papel}/{permissao}', ['as' => 'papeis.permissao.destroy', 'uses' => 'Admin\PapelController@permissaoDestroy']);
+
+});
+
+

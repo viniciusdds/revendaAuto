@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-            @can('ver-chamado',$chamado)
+            @can('view',$chamado)
                 <div class="form-group">
                      <h2>Detalhe de Chamados</h2>
 
