@@ -38,7 +38,8 @@ class User extends Authenticatable
     }
 
     public function isAdmin(){
-        return $this->id == 1;
+        //return $this->id == 1;
+        return $this->existePapel('Admin');
     }
 
     public function papeis(){
@@ -73,6 +74,11 @@ class User extends Authenticatable
             $papel = Papel::where('nome', '=', $papel)->firstOrFail();
         }
         return $this->papeis()->detach($papel);
+    }
+
+    public function temUmPapelDestes($papeis){
+        $userPapeis = $this->papeis;
+        return $papeis->intersect($userPapeis)->count();
     }
 
 }

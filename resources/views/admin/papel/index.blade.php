@@ -23,9 +23,12 @@
                         <td>{{$registro->descricao}}</td>
                         <td>
                            <form action="{{route('papeis.destroy', $registro->id)}}" method="post">
-                               <a title="Editar" href="{{route('papeis.edit', $registro->id)}}" class="btn orange">
+                            @can('papel-edit')   
+                                <a title="Editar" href="{{route('papeis.edit', $registro->id)}}" class="btn orange">
                                    <i class="material-icons">mode_edit</i>
                                </a>
+                            @endcan
+                            @can('papel-delete')
                                <a title="Permissões" href="{{route('papeis.permissao',$registro->id)}}" class="btn blue">
                                    <i class="material-icons">lock_outline</i>
                                </a>
@@ -33,6 +36,7 @@
                                {{method_field('DELETE')}}
                                {{csrf_field()}}
                                <button title="Deletar" class="btn red"><i class="material-icons">delete</i></button>
+                            @endcan
                            </form> 
                         </td>
                     </tr>
@@ -41,7 +45,9 @@
         </table>
     </div>
     <div class="row">
+    @can('papel-create')
         <a href="{{route('papeis.create')}}" class="btn blue">Adicionar</a>
+    @endcan
     </div>
 </div>
 @endsection
